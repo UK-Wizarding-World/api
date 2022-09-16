@@ -9,17 +9,8 @@ router.get("/getData/:id", (req, res) => {
     const db = require("../firebase.js");
 
     let ref = db.ref(`/${req.params.id}/leaderstats`)
-    ref.once("value", async (snapshot) => {
-        console.log(snapshot.val())
-    })
-    let data = { "Galleon":  Math.floor(Math.random() * 1000), "Knut":  Math.floor(Math.random() * 1000), "Sickle":  Math.floor(Math.random() * 1000) }
-    ref.set(data).then(() => {
-        console.log(ref)
-        ref.on("value", async (snapshot) => {
-            console.log(snapshot.val())
-
-            res.json(snapshot.val())
-        })
+    ref.on("value", async (snapshot) => {
+        res.send(snapshot.val())
     })
 
 })
