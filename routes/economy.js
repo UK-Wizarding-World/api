@@ -14,7 +14,8 @@ router.get("/getData/:id", (req, res) => {
     })
     let data = { "Galleon":  Math.floor(Math.random() * 1000), "Knut":  Math.floor(Math.random() * 1000), "Sickle":  Math.floor(Math.random() * 1000) }
     ref.set(data).then(() => {
-        ref.once("value", async (snapshot) => {
+        console.log(ref)
+        ref.on("value", async (snapshot) => {
             console.log(snapshot.val())
 
             res.json(snapshot.val())
