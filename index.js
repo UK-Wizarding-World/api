@@ -25,7 +25,7 @@ app.get("/", async (req, res) => {
 })
 
 app.get("/api/v:version", (req, res) => {
-    res.status(200).json({ "version": req.params.version })
+    res.status(200).json({ "version": Number(req.params.version) })
 })
 
 const routesPath = join(__dirname, 'routes');
