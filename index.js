@@ -8,7 +8,6 @@ const { join } = require("node:path");
 app.use(express.static(__dirname));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
-//app.set('views', join(__dirname+"
 
 const cors = require("cors");
 app.use(cors())
@@ -21,10 +20,10 @@ app.use(methodOverride())
 
 const CURRENT_VERSION = 1
 app.get("/", async (req, res) => {
-    res.status(200).redirect(`/api/${"v" + CURRENT_VERSION}`)
+    res.status(200).redirect(`/api/v${CURRENT_VERSION}`)
 })
 
-app.get("/api/v:version", (req, res) => {
+app.get(`/api/v${CURRENT_VERSION}`, (req, res) => {
     res.status(200).json({ "version": Number(req.params.version) })
 })
 
@@ -35,7 +34,7 @@ for (const file of routeFiles) {
     const filePath = join(routesPath, file);
     const route = require(filePath);
     //console.log(file.split(".")[0])
-    app.use("/api/:version/" + file.split(".")[0], route)
+    app.use(`/api/v${CURRENT_VERSION}/` + file.split(".")[0], route)
 }
 
 const listener = app.listen(5000, () => {
@@ -43,4 +42,4 @@ const listener = app.listen(5000, () => {
     console.log(listener.address())
 });
 
-module.exports = app; // for vercel DO NOT TOUCH
+module.exports = app; // must export the app so that vercel can use it as a function
